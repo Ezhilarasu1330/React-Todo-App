@@ -80,11 +80,19 @@ class login extends Component {
 
                 console.log('Login Info : ', response);
 
-                localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
-                this.setState({
-                    loading: false,
-                });
-                this.props.history.push('/');
+                if (response.data.status == "success") {
+                    localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
+                    this.setState({
+                        loading: false,
+                    });
+                    this.props.history.push('/');
+                }
+                else {
+                    this.setState({
+                        errors: response.data.message,
+                        loading: false
+                    });
+                }
             })
             .catch((error) => {
                 this.setState({
